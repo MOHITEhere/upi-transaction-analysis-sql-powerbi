@@ -1,0 +1,308 @@
+// ============================================================
+// UPI TRANSACTIONS - DAX MEASURES
+// Author: Atharva
+// Power BI Project: UPI Transaction Analysis Dashboard
+// Dataset: 20,000 records | Year 2024
+// ============================================================
+// HOW TO USE: In Power BI Desktop, go to Modeling tab
+// → New Table → name it "_Measures"
+// Then add each measure below using "New Measure"
+// ============================================================
+
+
+// -----------------------------------------------
+// SECTION 1: CORE KPI MEASURES
+// -----------------------------------------------
+
+Total Transactions = 
+COUNT(UPI_Transactions[TransactionID])
+// Result: 20,000
+
+
+Total Amount = 
+ROUND(SUM(UPI_Transactions[Amount]), 2)
+// Result: 19,872,274.03
+
+
+Average Transaction Value = 
+ROUND(AVERAGE(UPI_Transactions[Amount]), 2)
+// Result: 993.61
+
+
+Max Transaction Amount = 
+MAX(UPI_Transactions[Amount])
+// Result: 1,999.87
+
+
+Min Transaction Amount = 
+MIN(UPI_Transactions[Amount])
+// Result: 0.05
+
+
+// -----------------------------------------------
+// SECTION 2: SUCCESS & FAILURE MEASURES
+// -----------------------------------------------
+
+Successful Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[Status] = "Success"
+)
+// Result: 16,000
+
+
+Failed Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[Status] = "Failed"
+)
+// Result: 4,000
+
+
+Success Rate % = 
+DIVIDE(
+    CALCULATE(COUNT(UPI_Transactions[TransactionID]), UPI_Transactions[Status] = "Success"),
+    COUNT(UPI_Transactions[TransactionID]),
+    0
+) * 100
+// Result: 80.00%
+
+
+Failure Rate % = 
+DIVIDE(
+    CALCULATE(COUNT(UPI_Transactions[TransactionID]), UPI_Transactions[Status] = "Failed"),
+    COUNT(UPI_Transactions[TransactionID]),
+    0
+) * 100
+// Result: 20.00%
+
+
+Total Failed Amount = 
+CALCULATE(
+    ROUND(SUM(UPI_Transactions[Amount]), 2),
+    UPI_Transactions[Status] = "Failed"
+)
+// Result: 3,996,787.08
+
+
+Total Successful Amount = 
+CALCULATE(
+    ROUND(SUM(UPI_Transactions[Amount]), 2),
+    UPI_Transactions[Status] = "Success"
+)
+// Result: 15,875,486.95
+
+
+// -----------------------------------------------
+// SECTION 3: TRANSACTION TYPE MEASURES
+// -----------------------------------------------
+
+Payment Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[TransactionType] = "Payment"
+)
+
+
+Transfer Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[TransactionType] = "Transfer"
+)
+
+
+Instant Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[PaymentMode] = "Instant"
+)
+
+
+Scheduled Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[PaymentMode] = "Scheduled"
+)
+
+
+// -----------------------------------------------
+// SECTION 4: HIGH VALUE TRANSACTION MEASURES
+// -----------------------------------------------
+
+High Value Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[Amount] > 1500
+)
+// Result: 4,940
+
+
+High Value Amount = 
+CALCULATE(
+    SUM(UPI_Transactions[Amount]),
+    UPI_Transactions[Amount] > 1500
+)
+// Result: 8,644,375.28
+
+
+High Value % of Count = 
+DIVIDE(
+    CALCULATE(COUNT(UPI_Transactions[TransactionID]), UPI_Transactions[Amount] > 1500),
+    COUNT(UPI_Transactions[TransactionID]),
+    0
+) * 100
+// Result: 24.7%
+
+
+High Value % of Amount = 
+DIVIDE(
+    CALCULATE(SUM(UPI_Transactions[Amount]), UPI_Transactions[Amount] > 1500),
+    SUM(UPI_Transactions[Amount]),
+    0
+) * 100
+// Result: 43.5%
+
+
+// -----------------------------------------------
+// SECTION 5: TIME INTELLIGENCE MEASURES
+// -----------------------------------------------
+
+// Note: Add a Date Table to Power BI first for these to work correctly
+// Modeling → New Table → DateTable = CALENDARAUTO()
+
+Monthly Transaction Count = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    DATESMTD(UPI_Transactions[TransactionDate])
+)
+
+
+Monthly Total Amount = 
+CALCULATE(
+    SUM(UPI_Transactions[Amount]),
+    DATESMTD(UPI_Transactions[TransactionDate])
+)
+
+
+Month over Month Growth % = 
+VAR CurrentMonthAmount = 
+    CALCULATE(SUM(UPI_Transactions[Amount]), DATESMTD(UPI_Transactions[TransactionDate]))
+VAR PreviousMonthAmount = 
+    CALCULATE(SUM(UPI_Transactions[Amount]), DATEADD(UPI_Transactions[TransactionDate], -1, MONTH))
+RETURN
+    DIVIDE(CurrentMonthAmount - PreviousMonthAmount, PreviousMonthAmount, 0) * 100
+
+
+// -----------------------------------------------
+// SECTION 6: DEMOGRAPHIC MEASURES
+// -----------------------------------------------
+
+Avg Amount by Male = 
+CALCULATE(
+    AVERAGE(UPI_Transactions[Amount]),
+    UPI_Transactions[Gender] = "Male"
+)
+
+
+Avg Amount by Female = 
+CALCULATE(
+    AVERAGE(UPI_Transactions[Amount]),
+    UPI_Transactions[Gender] = "Female"
+)
+
+
+Age Group 20-29 Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[CustomerAge] >= 20,
+    UPI_Transactions[CustomerAge] <= 29
+)
+
+
+Age Group 30-39 Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[CustomerAge] >= 30,
+    UPI_Transactions[CustomerAge] <= 39
+)
+
+
+Age Group 40-49 Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[CustomerAge] >= 40,
+    UPI_Transactions[CustomerAge] <= 49
+)
+
+
+Age Group 50-59 Transactions = 
+CALCULATE(
+    COUNT(UPI_Transactions[TransactionID]),
+    UPI_Transactions[CustomerAge] >= 50,
+    UPI_Transactions[CustomerAge] <= 59
+)
+
+
+// -----------------------------------------------
+// SECTION 7: CITY & MERCHANT MEASURES
+// -----------------------------------------------
+
+Mumbai Amount = 
+CALCULATE(SUM(UPI_Transactions[Amount]), UPI_Transactions[City] = "Mumbai")
+
+
+Delhi Amount = 
+CALCULATE(SUM(UPI_Transactions[Amount]), UPI_Transactions[City] = "Delhi")
+
+
+Bangalore Amount = 
+CALCULATE(SUM(UPI_Transactions[Amount]), UPI_Transactions[City] = "Bangalore")
+
+
+Hyderabad Amount = 
+CALCULATE(SUM(UPI_Transactions[Amount]), UPI_Transactions[City] = "Hyderabad")
+
+
+Top Merchant Amount = 
+CALCULATE(
+    SUM(UPI_Transactions[Amount]),
+    TOPN(1, VALUES(UPI_Transactions[MerchantName]), 
+         CALCULATE(SUM(UPI_Transactions[Amount])), DESC)
+)
+
+
+// -----------------------------------------------
+// SECTION 8: DYNAMIC TITLE MEASURES (for visuals)
+// -----------------------------------------------
+
+// Use these as dynamic titles on your Power BI visuals
+
+Title Success Rate = 
+"Success Rate: " & FORMAT([Success Rate %], "0.00") & "%"
+
+
+Title Total Amount = 
+"Total Transaction Value: ₹" & FORMAT([Total Amount], "#,##0.00")
+
+
+Title Failure Summary = 
+"Failed Transactions: " & [Failed Transactions] & 
+" | Amount Lost: ₹" & FORMAT([Total Failed Amount], "#,##0")
+
+
+// -----------------------------------------------
+// SECTION 9: CONDITIONAL FORMATTING MEASURES
+// -----------------------------------------------
+
+// Use this measure to colour-code KPI cards (Red if failure rate > 25%)
+Failure Rate Color = 
+IF([Failure Rate %] > 25, "Red", "Green")
+
+
+// Benchmark: Is Avg Transaction above overall average?
+Above Average Flag = 
+IF(
+    AVERAGE(UPI_Transactions[Amount]) > 993.61,
+    "Above Average ▲",
+    "Below Average ▼"
+)
