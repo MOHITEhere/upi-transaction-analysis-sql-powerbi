@@ -1,4 +1,4 @@
-# 💳 UPI Transactions Analysis — Power BI Dashboard
+#  UPI Transactions Analysis — Power BI Dashboard
 
 > End-to-end data analytics project covering SQL data cleaning, data profiling, exploratory analysis, DAX measures, and an interactive Power BI dashboard built on 20,000 real-world UPI transaction records from 2024.
 
@@ -167,7 +167,7 @@ DIVIDE(
 
 ---
 
-## 👤 Author
+##  Author
 
 **Atharva Mohite**  
 B.Tech Student — DY Patil University (RAIT), Expected 2027  
