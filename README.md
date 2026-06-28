@@ -4,7 +4,7 @@
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 This project simulates the complete workflow of a **data analyst** working on a financial transactions dataset:
 
@@ -15,7 +15,7 @@ This project simulates the complete workflow of a **data analyst** working on a 
 
 ---
 
-## 🗂️ Repository Structure
+##  Repository Structure
 
 ```
 upi-transactions-powerbi/
@@ -40,7 +40,7 @@ upi-transactions-powerbi/
 
 ---
 
-## 📊 Dataset Details
+## Dataset Details
 
 | Property | Value |
 |---|---|
@@ -57,7 +57,7 @@ upi-transactions-powerbi/
 
 ---
 
-## 🔧 Tools & Technologies
+##  Tools & Technologies
 
 | Tool | Purpose |
 |---|---|
@@ -68,17 +68,17 @@ upi-transactions-powerbi/
 
 ---
 
-## 🧹 Data Cleaning Summary (`01_data_cleaning.sql`)
+##  Data Cleaning Summary (`01_data_cleaning.sql`)
 
 | Check | Result |
 |---|---|
 | Total Records | 20,000 |
-| Null Values | ✅ 0 across all 20 columns |
-| Duplicate Transaction IDs | ✅ 0 duplicates |
-| Negative / Zero Amounts | ✅ 0 invalid amounts |
-| Invalid Date Range | ✅ All within Jan–Dec 2024 |
-| Inconsistent Status Values | ✅ Only 'Success' and 'Failed' |
-| Whitespace in Text Columns | ✅ Trimmed via LTRIM/RTRIM |
+| Null Values |  0 across all 20 columns |
+| Duplicate Transaction IDs |  0 duplicates |
+| Negative / Zero Amounts |  0 invalid amounts |
+| Invalid Date Range |  All within Jan–Dec 2024 |
+| Inconsistent Status Values |  Only 'Success' and 'Failed' |
+| Whitespace in Text Columns |  Trimmed via LTRIM/RTRIM |
 
 **Derived Columns Added:**
 - `TransactionMonth` — for monthly trend analysis
@@ -87,7 +87,7 @@ upi-transactions-powerbi/
 
 ---
 
-## 📈 Key Business Metrics
+##  Key Business Metrics
 
 | KPI | Value |
 |---|---|
@@ -102,7 +102,7 @@ upi-transactions-powerbi/
 
 ---
 
-## 🔍 Top Insights
+##  Top Insights
 
 1. **1 in 5 transactions fails** — ₹40 lakh in value blocked. All 4 banks show identical 20% failure rate, pointing to a platform-side issue.
 2. **Mumbai & Delhi lead** — highest average spend per transaction (₹1,007–₹1,010 vs ₹975–₹981 in other cities).
@@ -110,11 +110,9 @@ upi-transactions-powerbi/
 4. **Top 25% of transactions = 43.5% of revenue** — high-value users must be protected.
 5. **Travel & Shopping** drive the highest average spend (₹999+) while Food is the lowest (₹986).
 
-> See [`insights/insights.md`](insights/insights.md) for the complete 10-insight report.
-
 ---
 
-## 📐 DAX Measures Highlights (`04_dax_measures.dax`)
+##  DAX Measures Highlights (`04_dax_measures.dax`)
 
 ```dax
 Success Rate % = 
@@ -134,29 +132,26 @@ DIVIDE(
     SUM(UPI_Transactions[Amount]), 0
 ) * 100
 ```
-
-Full list of 30+ measures in [`sql/04_dax_measures.dax`](sql/04_dax_measures.dax)
-
 ---
 
-## 📱 Power BI Dashboard
+##  Power BI Dashboard
 
 **2-Page Dashboard with Bookmarks**
 
 ### Page 1 — Transaction Overview
-- 🍩 **Donut Chart** — Transaction Status breakdown (Success vs Failed)
-- 🥧 **Pie Chart** — Transactions by Purpose (Food, Travel, Shopping, Bill Pay, Others)
+-  **Donut Chart** — Transaction Status breakdown (Success vs Failed)
+-  **Pie Chart** — Transactions by Purpose (Food, Travel, Shopping, Bill Pay, Others)
 - KPI Cards — Total Amount, Success Rate, Failure Rate, Avg Transaction Value
 - Bookmarks — toggle between Success-only and All Transactions view
 
 ### Page 2 — Detailed Matrix Analysis
-- 📋 **Matrix Table** — Cross-tab of City × Purpose × PaymentMode with Amount totals
+-  **Matrix Table** — Cross-tab of City × Purpose × PaymentMode with Amount totals
 - Drill-through enabled on City and Merchant
 - Conditional formatting on failure rate column
 
 ---
 
-## 🚀 How to Run This Project
+##  How to Run This Project
 
 ### SQL (SSMS)
 1. Import `data/UPI_Transactions.xlsx` into SQL Server
