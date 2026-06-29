@@ -136,21 +136,26 @@ DIVIDE(
 
 ##  Power BI Dashboard
 
+## Power BI Dashboard
+
 **2-Page Dashboard with Bookmarks**
 
 ### Page 1 — Transaction Overview
--  **Donut Chart** — Transaction Status breakdown (Success vs Failed)
--  **Pie Chart** — Transactions by Purpose (Food, Travel, Shopping, Bill Pay, Others)
+
+![Transaction Overview](upi_transaction_page1.png)
+
+- Donut Chart — Transaction Status breakdown (Success vs Failed)
+- Pie Chart — Transactions by Purpose (Food, Travel, Shopping, Bill Pay, Others)
 - KPI Cards — Total Amount, Success Rate, Failure Rate, Avg Transaction Value
 - Bookmarks — toggle between Success-only and All Transactions view
 
 ### Page 2 — Detailed Matrix Analysis
--  **Matrix Table** — Cross-tab of City × Purpose × PaymentMode with Amount totals
+
+![Detailed Matrix Analysis](upi_transaction_page2.png)
+
+- Matrix Table — Cross-tab of City x Purpose x PaymentMode with Amount totals
 - Drill-through enabled on City and Merchant
 - Conditional formatting on failure rate column
-
----
-
 ##  How to Run This Project
 
 ### SQL (SSMS)
